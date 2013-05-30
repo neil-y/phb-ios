@@ -103,6 +103,14 @@
 		109F874C1743D48500B94DEF /* PKSafeChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 109F874B1743D48500B94DEF /* PKSafeChatCell.m */; };
 		109F874E1743D58D00B94DEF /* commend_num@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109F874D1743D58D00B94DEF /* commend_num@2x.png */; };
 		109F87511743D88300B94DEF /* PKMyTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109F87501743D88300B94DEF /* PKMyTopicViewController.m */; };
+		10CEBCBC175634B1005AD70E /* left_bg-ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCB6175634B1005AD70E /* left_bg-ip5@2x.png */; };
+		10CEBCBD175634B1005AD70E /* left_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCB7175634B1005AD70E /* left_bg@2x.png */; };
+		10CEBCBE175634B1005AD70E /* middle_bg-ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCB8175634B1005AD70E /* middle_bg-ip5@2x.png */; };
+		10CEBCBF175634B1005AD70E /* middle_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCB9175634B1005AD70E /* middle_bg@2x.png */; };
+		10CEBCC0175634B1005AD70E /* right_bg-ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCBA175634B1005AD70E /* right_bg-ip5@2x.png */; };
+		10CEBCC1175634B1005AD70E /* right_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10CEBCBB175634B1005AD70E /* right_bg@2x.png */; };
+		10CEBCDA175765A1005AD70E /* ApiCmdHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CEBCD9175765A1005AD70E /* ApiCmdHomePage.m */; };
+		10CEBCDD17577062005AD70E /* ApiCmdBabyCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CEBCDC17577062005AD70E /* ApiCmdBabyCard.m */; };
 		10D413B51737E1DE002DC1C6 /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D413B41737E1DE002DC1C6 /* PKSearchViewController.m */; };
 		10D413B81737EDF9002DC1C6 /* PKSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D413B71737EDF9002DC1C6 /* PKSearchResultViewController.m */; };
 		87041B53173D4D1800E58263 /* PKUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87041B52173D4D1800E58263 /* PKUserViewController.m */; };
@@ -360,6 +368,16 @@
 		109F874D1743D58D00B94DEF /* commend_num@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commend_num@2x.png"; sourceTree = "<group>"; };
 		109F874F1743D88300B94DEF /* PKMyTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKMyTopicViewController.h; sourceTree = "<group>"; };
 		109F87501743D88300B94DEF /* PKMyTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKMyTopicViewController.m; sourceTree = "<group>"; };
+		10CEBCB6175634B1005AD70E /* left_bg-ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left_bg-ip5@2x.png"; sourceTree = "<group>"; };
+		10CEBCB7175634B1005AD70E /* left_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left_bg@2x.png"; sourceTree = "<group>"; };
+		10CEBCB8175634B1005AD70E /* middle_bg-ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "middle_bg-ip5@2x.png"; sourceTree = "<group>"; };
+		10CEBCB9175634B1005AD70E /* middle_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "middle_bg@2x.png"; sourceTree = "<group>"; };
+		10CEBCBA175634B1005AD70E /* right_bg-ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_bg-ip5@2x.png"; sourceTree = "<group>"; };
+		10CEBCBB175634B1005AD70E /* right_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_bg@2x.png"; sourceTree = "<group>"; };
+		10CEBCD8175765A1005AD70E /* ApiCmdHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiCmdHomePage.h; sourceTree = "<group>"; };
+		10CEBCD9175765A1005AD70E /* ApiCmdHomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiCmdHomePage.m; sourceTree = "<group>"; };
+		10CEBCDB17577062005AD70E /* ApiCmdBabyCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiCmdBabyCard.h; sourceTree = "<group>"; };
+		10CEBCDC17577062005AD70E /* ApiCmdBabyCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiCmdBabyCard.m; sourceTree = "<group>"; };
 		10D413B31737E1DE002DC1C6 /* PKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSearchViewController.h; sourceTree = "<group>"; };
 		10D413B41737E1DE002DC1C6 /* PKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSearchViewController.m; sourceTree = "<group>"; };
 		10D413B61737EDF9002DC1C6 /* PKSearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSearchResultViewController.h; sourceTree = "<group>"; };
@@ -656,8 +674,6 @@
 				105CF556174518BA001C1339 /* ApiConfig.m */,
 				105CF55817451E8F001C1339 /* common.h */,
 				105CF55917451E8F001C1339 /* common.m */,
-				105CF54B1745135C001C1339 /* ApiCmdUser.h */,
-				105CF54C1745135C001C1339 /* ApiCmdUser.m */,
 				105CF55B174523C5001C1339 /* PKConfig.h */,
 				105CF55C174523C6001C1339 /* PKConfig.m */,
 				105CF55E17452422001C1339 /* ApiClient.h */,
@@ -666,6 +682,12 @@
 				105CF56217452473001C1339 /* HttpCmdGet.m */,
 				105CF564174527B7001C1339 /* ApiLogger.h */,
 				105CF565174527B8001C1339 /* ApiLogger.m */,
+				105CF54B1745135C001C1339 /* ApiCmdUser.h */,
+				105CF54C1745135C001C1339 /* ApiCmdUser.m */,
+				10CEBCD8175765A1005AD70E /* ApiCmdHomePage.h */,
+				10CEBCD9175765A1005AD70E /* ApiCmdHomePage.m */,
+				10CEBCDB17577062005AD70E /* ApiCmdBabyCard.h */,
+				10CEBCDC17577062005AD70E /* ApiCmdBabyCard.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -910,6 +932,12 @@
 		87A035141727F12E001F7D73 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				10CEBCB6175634B1005AD70E /* left_bg-ip5@2x.png */,
+				10CEBCB7175634B1005AD70E /* left_bg@2x.png */,
+				10CEBCB8175634B1005AD70E /* middle_bg-ip5@2x.png */,
+				10CEBCB9175634B1005AD70E /* middle_bg@2x.png */,
+				10CEBCBA175634B1005AD70E /* right_bg-ip5@2x.png */,
+				10CEBCBB175634B1005AD70E /* right_bg@2x.png */,
 				105CF5341745051A001C1339 /* card_more@2x.png */,
 				105CF532174502F0001C1339 /* card_enter@2x.png */,
 				109F874D1743D58D00B94DEF /* commend_num@2x.png */,
@@ -1280,6 +1308,12 @@
 				109F874E1743D58D00B94DEF /* commend_num@2x.png in Resources */,
 				105CF533174502F0001C1339 /* card_enter@2x.png in Resources */,
 				105CF5351745051A001C1339 /* card_more@2x.png in Resources */,
+				10CEBCBC175634B1005AD70E /* left_bg-ip5@2x.png in Resources */,
+				10CEBCBD175634B1005AD70E /* left_bg@2x.png in Resources */,
+				10CEBCBE175634B1005AD70E /* middle_bg-ip5@2x.png in Resources */,
+				10CEBCBF175634B1005AD70E /* middle_bg@2x.png in Resources */,
+				10CEBCC0175634B1005AD70E /* right_bg-ip5@2x.png in Resources */,
+				10CEBCC1175634B1005AD70E /* right_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1360,6 +1394,8 @@
 				105CF56317452474001C1339 /* HttpCmdGet.m in Sources */,
 				105CF566174527B9001C1339 /* ApiLogger.m in Sources */,
 				105CF56917464F27001C1339 /* JSONKit.m in Sources */,
+				10CEBCDA175765A1005AD70E /* ApiCmdHomePage.m in Sources */,
+				10CEBCDD17577062005AD70E /* ApiCmdBabyCard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,7 +1446,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1434,7 +1470,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

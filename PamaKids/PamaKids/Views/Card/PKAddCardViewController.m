@@ -41,6 +41,25 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)clickRightNaviBtn{
+    if (apiBabyCard) {
+        apiBabyCard = nil;
+    }
+    apiBabyCard = [[ApiCmdBabyCard alloc] init];
+    apiBabyCard.m_requestUrl = @"/api/babycards";
+    apiBabyCard.userid = @"1";
+    apiBabyCard.cardname = @"apple";
+    [[PKConfig getApiClient] executeApiCmdAsync:apiBabyCard WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdBabyCard *result = (ApiCmdBabyCard *)apiCmd;
+    if (result.isReturnSuccess) {
+        
+    }
+    NSLog(@"ddd");
+}
+
 - (void)loadContent{
     myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, 320, self.view.frame.size.height-44)];
     myScrollView.delegate = self;

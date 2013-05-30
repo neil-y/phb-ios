@@ -36,7 +36,25 @@
     [self loadTable];
     
     [self createBtn];
+    [self loadCardData];
 	// Do any additional setup after loading the view.
+}
+
+- (void)loadCardData{
+    if (apiBabyCard) {
+        apiBabyCard = nil;
+    }
+    apiBabyCard = [[ApiCmdBabyCard alloc] init];
+    apiBabyCard.m_requestUrl = @"/api/babycards?user_id=1";
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiBabyCard WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdBabyCard *result = (ApiCmdBabyCard *)apiCmd;
+    if (result.isReturnSuccess) {
+        
+    }
+    NSLog(@"ddd");
 }
 
 - (void)createBtn{

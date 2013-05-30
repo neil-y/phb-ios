@@ -17,6 +17,8 @@
 #import "PKSafeChatViewController.h"
 #import "PKMyTopicViewController.h"
 #import "PKCardListViewController.h"
+#import "PKHomeViewController.h"
+#import "AppDelegate.h"
 
 @interface PKSafeRootViewController ()
 
@@ -36,7 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"main_bg-ip5":@"main_bg"]];
+    self.typeBackground = PKBackgroundTypeRight;
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"main_bg-ip5":@"main_bg"]];
     numTopic = 8;
     [self createNaviBar];
     self.strNaviTitle = @"安全贴";
@@ -176,30 +179,34 @@
     [imgMark addSubview:label];
 }
 
+- (DDMenuController *)getMenuCtrl{
+    return ((AppDelegate *)[UIApplication sharedApplication].delegate).homeController.slideOutCtrl;
+}
+
 - (void)clickBtn:(id)sender{
     switch (((UIButton *)sender).tag) {
         case 0:
         {
             PKMyCollectionViewController *controller = [[PKMyCollectionViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 1:
         {
             PKMyTopicViewController *controller = [[PKMyTopicViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 2:
         {
             PKCommentListViewController *controller = [[PKCommentListViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 3:
         {
             PKAddTopicViewController *controller = [[PKAddTopicViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
             
@@ -213,25 +220,25 @@
         case 0:
         {
             PKNewsInfoViewController *controller = [[PKNewsInfoViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 1:
         {
             PKSafeChatViewController *controller = [[PKSafeChatViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 2:
         {
             PKSafeRecommendViewController *controller = [[PKSafeRecommendViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
         case 3:
         {
             PKCardViewController *controller = [[PKCardViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
         }
             break;
             
@@ -242,12 +249,12 @@
 
 - (void)clickSettingBtn{
     PKUserViewController *controller = [[PKUserViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
 }
 
 - (void)enterCard{
     PKCardListViewController *controller = [[PKCardListViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

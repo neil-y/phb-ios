@@ -18,6 +18,8 @@
 #import "PKMyCollectionViewController.h"
 #import "PKAnswerViewController.h"
 #import "PKUserViewController.h"
+#import "PKMenuViewController.h"
+#import "PKSafeRootViewController.h"
 
 @interface PKLoginViewController ()
 
@@ -44,7 +46,7 @@
 {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"main_bg"]];
+    self.typeBackground = PKBackgroundTypeMiddle;
     UIImageView *imgBg = [[UIImageView alloc] initWithFrame:self.view.bounds];
     imgBg.image = [UIImage imageNamed:@"login_bg"];
     [self.view addSubview:imgBg];
@@ -263,11 +265,18 @@
 }
 
 - (void)clickLoginBtn{
-//    PKMyCollectionViewController *controller = [[PKMyCollectionViewController alloc] init];
-//    [self.navigationController pushViewController:controller animated:YES];
-//    return;
     PKHomeViewController *controller = [[PKHomeViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    //[self.navigationController pushViewController:controller animated:YES];
+    
+    DDMenuController *menuCtrl = [[DDMenuController alloc] initWithRootViewController:controller];
+    controller.slideOutCtrl = menuCtrl;
+    PKMenuViewController *leftCtrl = [[PKMenuViewController alloc] init];
+    menuCtrl.leftViewController = leftCtrl;
+    
+    PKSafeRootViewController *rightCtrl = [[PKSafeRootViewController alloc] init];
+    menuCtrl.rightViewController = rightCtrl;
+    
+    [self.navigationController pushViewController:menuCtrl animated:YES];
 }
 
 - (void)clickSignupBtn{

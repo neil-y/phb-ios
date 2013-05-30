@@ -172,6 +172,18 @@ static NSString* keyCookie = @"cookie";
     });
 }
 
+- (void) executeApiCmdGetAsync:(HttpCmdGet*) cmd WithBlock:(id)object{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        //[object retain];
+        [self executeHttpCmdGet:cmd];
+        //[object release];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+        
+    });
+}
+
 - (NSError*) executeApiCmd:(ApiCmd*) cmd{
     ASIFormDataRequest* request = [self prepareExecuteApiCmd:cmd];
     [request startSynchronous];
@@ -179,11 +191,15 @@ static NSString* keyCookie = @"cookie";
     NSData *responseData = request.responseData;
     int statusCode = [request responseStatusCode];
     cmd.isFromCache = NO;
-    if (statusCode == 200) {
+    if (statusCode == 200||statusCode == 201) {
         cmd.isFromCache = request.didUseCachedResponse;
         NSString* str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
         NSLog(@"%@",str);
         [cmd parseHttpDataAll:responseData];
+    }
+    else {
+        NSString *str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",str);
     }
     
     
@@ -203,7 +219,10 @@ static NSString* keyCookie = @"cookie";
 - (ASIHTTPRequest*) prepareExecuteHttpCmdGet:(HttpCmdGet*) cmd {
     
     // prepare http request
-    NSURL *url = [NSURL URLWithString:prepareStaticHttpPath(cmd.requestUri)];
+    //NSURL *url = [NSURL URLWithString:prepareStaticHttpPath(cmd.requestUri)];
+    NSString *str = [[NSString stringWithFormat:@"%@%@",[ApiConfig getApiRequestUrl],cmd.m_requestUrl] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSURL *url = [NSURL URLWithString:str];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     
     if(cmd.isUseCache)

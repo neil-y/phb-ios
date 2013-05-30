@@ -12,12 +12,14 @@
 #import "PKSafeRootViewController.h"
 #import "PKNoteView.h"
 #import "PKTopView.h"
+#import "AppDelegate.h"
 
 @interface PKHomeViewController ()
 
 @end
 
 @implementation PKHomeViewController
+@synthesize slideOutCtrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.typeBackground = PKBackgroundTypeMiddle;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
     
     UIImageView *imgIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
@@ -50,7 +53,29 @@
     
     [self loadContent];
     [self loadContolBar];
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.homeController = self;
+    
+    [self loadHomePageData];
 	// Do any additional setup after loading the view.
+}
+
+- (void)loadHomePageData{
+    if (apiHomePage) {
+        apiHomePage = nil;
+    }
+    apiHomePage = [[ApiCmdHomePage alloc] init];
+    apiHomePage.m_requestUrl = @"/api/tags/首页";
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiHomePage WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdHomePage *result = (ApiCmdHomePage *)apiCmd;
+    if (result.isReturnSuccess) {
+        
+    }
+    NSLog(@"ddd");
 }
 
 - (void)clickBtn{
@@ -88,7 +113,7 @@
 
 - (void)clickSearchBtn{
     PKSearchViewController *controller = [[PKSearchViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    [slideOutCtrl.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)clickTabbarBtn:(id)sender{
@@ -104,14 +129,16 @@
     switch (selTag) {
         case 100:
         {
-            PKMenuViewController *controller = [[PKMenuViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [slideOutCtrl showLeftController:YES];
+            //PKMenuViewController *controller = [[PKMenuViewController alloc] init];
+            //[self.navigationController pushViewController:controller animated:YES];
         }
             break;
         case 102:
         {
-            PKSafeRootViewController *controller = [[PKSafeRootViewController alloc] init];
-            [self.navigationController pushViewController:controller animated:YES];
+            [slideOutCtrl showRightController:YES];
+            //PKSafeRootViewController *controller = [[PKSafeRootViewController alloc] init];
+            //[slideOutCtrl.navigationController pushViewController:controller animated:YES];
         }
             break;
             

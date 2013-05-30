@@ -13,7 +13,7 @@
 @end
 
 @implementation PKViewController
-@synthesize strNaviTitle;
+@synthesize strNaviTitle,typeBackground;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,6 +50,29 @@
 
 - (void)setStrNaviTitle:(NSString *)title{
     labelTitle.text = title;
+}
+
+- (void)setTypeBackground:(PKBackgroundType)type{
+    switch (type) {
+        case PKBackgroundTypeLeft:
+        {
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"left_bg-ip5":@"left_bg"]];
+        }
+            break;
+        case PKBackgroundTypeMiddle:
+        {
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"middle_bg-ip5":@"middle_bg"]];
+        }
+            break;
+        case PKBackgroundTypeRight:
+        {
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"right_bg-ip5":@"right_bg"]];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #define BTN_PADDING_LEFT 15.0

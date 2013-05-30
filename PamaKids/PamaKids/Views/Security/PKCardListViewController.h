@@ -7,7 +7,10 @@
 //
 
 #import "PKTableViewController.h"
+#import "ApiCmdBabyCard.h"
 
-@interface PKCardListViewController : PKTableViewController
+@interface PKCardListViewController : PKTableViewController{
+    ApiCmdBabyCard *apiBabyCard;
+}
 
 @end

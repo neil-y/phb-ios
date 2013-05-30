@@ -109,7 +109,9 @@
 }
 
 - (void) parseApiError:(NSDictionary*) dictionary {
-    
+    if ([dictionary isKindOfClass:[NSArray class]]) {
+        return;
+    }
     // reset the old state
     isReturnSuccess = [[dictionary valueForKey:@"success"] boolValue];
     return;

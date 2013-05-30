@@ -28,9 +28,10 @@
     [super viewDidLoad];
     selSession = -1;
     selRow = -1;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"main_bg-ip5":@"main_bg"]];
-    UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iPhone5?@"menu_bg-ip5":@"menu_bg"]];
-    [self.view addSubview:img];
+    self.typeBackground = PKBackgroundTypeLeft;
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:iPhone5?@"main_bg-ip5":@"main_bg"]];
+//    UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iPhone5?@"menu_bg-ip5":@"menu_bg"]];
+//    [self.view addSubview:img];
     
     [self createNaviBar];
     self.strNaviTitle = @"目录";

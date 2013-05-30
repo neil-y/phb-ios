@@ -7,10 +7,14 @@
 //
 
 #import "PKViewController.h"
+#import "DDMenuController.h"
+#import "ApiCmdHomePage.h"
 
 @interface PKHomeViewController : PKViewController{
     NSArray *arrayNormal,*arrayHighlight;
     UIImageView *imgBar;
+    ApiCmdHomePage *apiHomePage;
 }
+@property (nonatomic, strong) DDMenuController *slideOutCtrl;
 
 @end

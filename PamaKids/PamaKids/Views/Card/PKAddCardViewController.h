@@ -7,12 +7,15 @@
 //
 
 #import "PKViewController.h"
+#import "ApiCmdBabyCard.h"
 
 @interface PKAddCardViewController : PKViewController<UITextFieldDelegate,UIScrollViewDelegate>{
     UIScrollView *myScrollView;
     UITextField *textName,*textBirthday,*textFaNum,*textMoMun,*textRecord,*textNotice,*textSelected;
     UIImageView *imgCard;
     NSMutableArray *arrayGender,*arrayBlood;
+    
+    ApiCmdBabyCard *apiBabyCard;
 }
 
 @end
