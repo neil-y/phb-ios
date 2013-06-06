@@ -9,7 +9,7 @@
 #import "PKViewController.h"
 #import "ApiCmdUser.h"
 
-@interface PKSignupViewController : PKViewController<ApiNotify,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>{
+@interface PKSignupViewController : PKViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>{
     UITextField *textSelected,*textUserName,*textPassword,*textConfirm,*textNickName;
     UIActionSheet *myActionSheet;
     UIImageView *imgAvatar;

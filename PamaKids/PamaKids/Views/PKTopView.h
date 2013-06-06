@@ -10,4 +10,7 @@
 
 @interface PKTopView : UIView
 
+@property (nonatomic, strong) NSDictionary *dictArticle;
+
+- (id)initWithFrame:(CGRect)frame data:(NSDictionary *)dict;
 @end

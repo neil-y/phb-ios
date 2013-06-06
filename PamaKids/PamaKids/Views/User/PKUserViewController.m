@@ -35,8 +35,39 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)clickRightNaviBtn{
+    [textNickname resignFirstResponder];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:textNickname.text forKey:@"nickname"];
+    
+    if (apiUser) {
+        apiUser = nil;
+    }
+    apiUser = [[ApiCmdUser alloc] init];
+    apiUser.delegate = self;
+    apiUser.m_requestUrl = [NSString stringWithFormat:@"/api/users/%@",[userDefaults valueForKey:@"id"]];//@"/api/users/signin";
+//    apiUser.password = @"12345678";
+//    apiUser.username = @"leon2005ccd@126.com";
+    apiUser.nickname = textNickname.text;
+    
+    [[PKConfig getApiClient] executeApiCmdPutAsync:apiUser WithBlock:self];
+    
+    [self createATMHud:@"正在更新"];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdUser *result = (ApiCmdUser *)apiCmd;
+    if (result.isReturnSuccess) {
+        [self showATMHudSuccess:@"更新成功"];
+    }
+    else {
+        [self showATMHudError:@"更新失败"];
+    }
+}
+
 
 - (void)loadContent{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIImageView *imgPanel = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user_info_bg"]];
     imgPanel.center = CGPointMake(self.view.frame.size.width/2.0, 50+imgPanel.frame.size.height/2.0);
     imgPanel.userInteractionEnabled = YES;
@@ -69,6 +100,8 @@
         label1.text = str;
         [imgPanel addSubview:label1];
         
+        
+        
         UIImageView *imgArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user_info_acc"]];
         imgArrow.center = CGPointMake(imgPanel.frame.size.width-11-imgArrow.frame.size.width/2.0, i==3?(22+38*i):(22+35*i));
         [imgPanel addSubview:imgArrow];
@@ -78,6 +111,17 @@
             UIImageView *imgLine = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user_info_line"]];
             imgLine.frame = CGRectMake(15, 40+36*i, imgLine.frame.size.width, imgLine.frame.size.height);
             [imgPanel addSubview:imgLine];
+            
+            UITextField *myTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 10+36*i, 200, 36)];
+            myTextField.backgroundColor = [UIColor clearColor];
+            myTextField.tag = i;
+            myTextField.delegate = self;
+            [imgPanel addSubview:myTextField];
+            
+            if (i==1) {
+                textNickname = myTextField;
+                textNickname.text = [userDefaults valueForKey:@"nickname"];
+            }
         }
     }
 }

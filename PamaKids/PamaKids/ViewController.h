@@ -11,7 +11,7 @@
 #import "PKLoginViewController.h"
 
 @interface ViewController : UIViewController{
-    PKHomeViewController *controller;
+    //PKHomeViewController *controller;
     PKLoginViewController *loginCtrl;
     UINavigationController *naviCtrl;
 }

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class PKCardListViewController;
+
 @interface PKCardListCell : UITableViewCell
+
+@property (nonatomic, strong) PKCardListViewController *mainCtrl;
+@property (nonatomic, strong) NSMutableDictionary *dictCard;
 
 @end

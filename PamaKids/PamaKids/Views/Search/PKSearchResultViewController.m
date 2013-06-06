@@ -13,6 +13,7 @@
 @end
 
 @implementation PKSearchResultViewController
+@synthesize strKey;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +33,8 @@
     [self createNaviBtnLeft:[UIImage imageNamed:@"back_btn"]];
     
     [self loadContent];
+    strKey = @"AAA";
+    [self search];
 	// Do any additional setup after loading the view.
 }
 
@@ -57,6 +60,25 @@
     myTextField.returnKeyType = UIReturnKeySearch;
     [imgInput addSubview:myTextField];
     [self showResultPage];
+}
+
+- (void)search{
+    if (apiSearch) {
+        apiSearch = nil;
+    }
+    apiSearch = [[HttpCmdGet alloc] init];
+    apiSearch.m_requestUrl = [NSString stringWithFormat:@"/api/search?term=%@",strKey];//@"/api/comments?user_id=1";
+    apiSearch.delegate = self;
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiSearch WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    HttpCmdGet *result = (HttpCmdGet *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictSearch = (NSMutableDictionary *)result.dict;
+    }
+    
+    [myTableView reloadData];
 }
 
 - (void)showNoResultPage{

@@ -51,7 +51,7 @@
     [btnSearch addTarget:self action:@selector(clickSearchBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnSearch];
     
-    [self loadContent];
+    //[self loadContent];
     [self loadContolBar];
     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -67,15 +67,16 @@
     }
     apiHomePage = [[ApiCmdHomePage alloc] init];
     apiHomePage.m_requestUrl = @"/api/tags/首页";
+    apiHomePage.delegate = self;
     [[PKConfig getApiClient] executeApiCmdGetAsync:apiHomePage WithBlock:self];
 }
 
 - (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
     ApiCmdHomePage *result = (ApiCmdHomePage *)apiCmd;
     if (result.isReturnSuccess) {
-        
+        dictCategory = [result.dict valueForKey:@"categories"];
     }
-    NSLog(@"ddd");
+    [self loadContent];
 }
 
 - (void)clickBtn{
@@ -103,10 +104,14 @@
 }
 
 - (void)loadContent{
-    PKTopView *topView = [[PKTopView alloc] initWithFrame:CGRectMake(0, 40, 320, 199)];
+    NSArray *arrayKey = [dictCategory allKeys];
+    NSArray *arrayArticles = [dictCategory valueForKey:[arrayKey objectAtIndex:0]];
+    NSDictionary *dictArticle = [arrayArticles objectAtIndex:0];
+    
+    PKTopView *topView = [[PKTopView alloc] initWithFrame:CGRectMake(0, 40, 320, 199) data:dictArticle];
     [self.view addSubview:topView];
     for (int i = 0; i < 2; i++) {
-        PKNoteView *noteView = [[PKNoteView alloc] initWithFrame:CGRectMake(160*i, 250, 160, 116) status:i==0];
+        PKNoteView *noteView = [[PKNoteView alloc] initWithFrame:CGRectMake(160*i, 250, 160, 116) status:i==0 data:[arrayArticles objectAtIndex:i+1]];
         [self.view addSubview:noteView];
     }
 }

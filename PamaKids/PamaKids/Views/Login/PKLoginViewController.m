@@ -232,10 +232,6 @@
 
 #pragma mark - login/signup
 - (void)clickWeiboLogin:(id)sender{
-    PKUserViewController *controller = [[PKUserViewController alloc] init];
-    //PKAnswerViewController *controller = [[PKAnswerViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
-    return;
     UMSocialControllerService *_socialUIController = [UMSocialControllerService defaultControllerService];
     _socialUIController.socialUIDelegate = self;
     [_socialUIController.socialDataService setUMSocialDelegate:self];
@@ -265,6 +261,50 @@
 }
 
 - (void)clickLoginBtn{
+    if (apiUser) {
+        apiUser = nil;
+    }
+    apiUser = [[ApiCmdUser alloc] init];
+    apiUser.delegate = self;
+    apiUser.m_requestUrl = @"/api/users/signin";
+    apiUser.password = @"12345678";
+    apiUser.username = @"leon2005ccd@126.com";
+    
+    [[PKConfig getApiClient] executeApiCmdAsync:apiUser WithBlock:self];
+    
+    [self createATMHud:@"正在登录"];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdUser *result = (ApiCmdUser *)apiCmd;
+    if (result.isReturnSuccess) {
+        [self hidATMHud];
+        [self saveUserData:[result.dict valueForKey:@"user"]];
+        [self showMainPage];
+    }
+    else {
+        [self showATMHudError:@"登录失败"];
+    }
+}
+
+- (void)saveUserData:(NSMutableDictionary *)dict{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:@"isLogin"];
+    id avatar = defaultNilObject([dict valueForKey:@"avatar"]);
+    id gender = defaultNilObject([dict valueForKey:@"gender"]);
+    id name = defaultNilObject([dict valueForKey:@"name"]);
+    id nickname = defaultNilObject([dict valueForKey:@"nickname"]);
+    id note = defaultNilObject([dict valueForKey:@"note"]);
+    [userDefaults setObject:avatar?avatar:@"" forKey:@"avatar"];
+    [userDefaults setObject:[dict valueForKey:@"email"] forKey:@"email"];
+    [userDefaults setObject:gender?gender:@"" forKey:@"gender"];
+    [userDefaults setObject:[dict valueForKey:@"id"] forKey:@"id"];
+    [userDefaults setObject:name?name:@"" forKey:@"name"];
+    [userDefaults setObject:nickname?nickname:@"" forKey:@"nickname"];
+    [userDefaults setObject:note?note:@"" forKey:@"note"];
+}
+
+- (void)showMainPage{
     PKHomeViewController *controller = [[PKHomeViewController alloc] init];
     //[self.navigationController pushViewController:controller animated:YES];
     
@@ -290,9 +330,10 @@
 }
 
 - (void)clickJumpBtn{
+    [self showMainPage];
     //PKTestResultViewController *controller = [[PKTestResultViewController alloc] init];
-    PKCommentListViewController *controller = [[PKCommentListViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+//    PKCommentListViewController *controller = [[PKCommentListViewController alloc] init];
+//    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -8,10 +8,12 @@
 
 #import "PKViewController.h"
 #import "CPTextViewPlaceholder.h"
+#import "ApiCmdFeedback.h"
 
 @interface PKAddTopicViewController : PKViewController<UITextViewDelegate>{
     CPTextViewPlaceholder *textTopic,*textContent;
     UILabel *labelTopicCount,*labelContentCount;
+    ApiCmdFeedback *apiFeedback;
 }
 
 @end

@@ -10,6 +10,6 @@
 
 @interface ApiCmdBabyCard : HttpCmdGet
 
-@property (nonatomic,strong) NSString *userid,*cardname;
+@property (nonatomic,strong) NSString *userid,*cardname,*birthday,*blood_type,*color,*father_phone,*gender,*mather_phone,*note,*record;
 
 @end

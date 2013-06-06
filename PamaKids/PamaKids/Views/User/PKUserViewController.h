@@ -7,7 +7,11 @@
 //
 
 #import "PKViewController.h"
+#import "ApiCmdUser.h"
 
-@interface PKUserViewController : PKViewController
+@interface PKUserViewController : PKViewController<UITextFieldDelegate>{
+    UITextField *textUserName,*textNickname,*textGender;
+    ApiCmdUser *apiUser;
+}
 
 @end

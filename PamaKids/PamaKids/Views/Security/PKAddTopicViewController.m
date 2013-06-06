@@ -31,8 +31,51 @@
     self.strNaviTitle = @"告诉编辑";
     [self createNaviBtnLeft:[UIImage imageNamed:@"back_btn"]];
     
+    [self createNaviBtnRight:[UIImage imageNamed:@"edit_btn"] title:@"发送"];
+    
     [self loadContent];
 	// Do any additional setup after loading the view.
+}
+
+- (void)clickRightNaviBtn{
+    if (textTopic.text.length==0) {
+        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"请输入主题" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [myAlertView show];
+        return;
+    }
+    
+    if (textContent.text.length==0) {
+        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"请输入内容" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [myAlertView show];
+        return;
+    }
+    [textContent resignFirstResponder];
+    [textTopic resignFirstResponder];
+    
+    [self createATMHud:@"正在发送"];
+    
+    if (apiFeedback) {
+        apiFeedback = nil;
+    }
+    apiFeedback = [[ApiCmdFeedback alloc] init];
+    apiFeedback.userid = @"1";
+    apiFeedback.title = textTopic.text;
+    apiFeedback.content = textContent.text;
+    apiFeedback.delegate = self;
+    apiFeedback.m_requestUrl = @"/api/feedbacks";
+    [[PKConfig getApiClient] executeApiCmdAsync:apiFeedback WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdFeedback *result = (ApiCmdFeedback *)apiCmd;
+    if (result.isReturnSuccess) {
+        [self showATMHudSuccess:@"发送成功"];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    //[textContent resignFirstResponder];
+    //[textTopic resignFirstResponder];
 }
 
 - (void)loadContent{
@@ -91,6 +134,7 @@
 
 
 - (void)clickSendBtn{
+    [self clickRightNaviBtn];
 }
 
 #pragma mark - textview delegate

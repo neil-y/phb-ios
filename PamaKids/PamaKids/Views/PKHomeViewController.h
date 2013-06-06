@@ -14,6 +14,7 @@
     NSArray *arrayNormal,*arrayHighlight;
     UIImageView *imgBar;
     ApiCmdHomePage *apiHomePage;
+    NSDictionary *dictCategory;
 }
 @property (nonatomic, strong) DDMenuController *slideOutCtrl;
 

@@ -7,11 +7,15 @@
 //
 
 #import "PKSessionTableViewController.h"
+#import "HttpCmdGet.h"
 
 @interface PKSearchResultViewController : PKSessionTableViewController<UITextFieldDelegate>{
     UITextField *myTextField;
     UIImageView *imgSearchBg;
     UILabel *labelNoResult;
+    HttpCmdGet *apiSearch;
+    NSMutableDictionary *dictSearch;
 }
+@property (nonatomic, strong) NSString *strKey;
 
 @end

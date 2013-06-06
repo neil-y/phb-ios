@@ -7,7 +7,11 @@
 //
 
 #import "PKTableViewController.h"
+#import "HttpCmdGet.h"
 
-@interface PKMyTopicViewController : PKTableViewController
+@interface PKMyTopicViewController : PKTableViewController{
+    HttpCmdGet *apiArticles;
+    NSDictionary *dictArticles;
+}
 
 @end

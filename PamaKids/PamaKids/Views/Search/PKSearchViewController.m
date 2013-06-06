@@ -33,6 +33,8 @@
     [self createNaviBtnLeft:[UIImage imageNamed:@"back_btn"]];
     
     [self loadContent];
+    
+    [self loadKeywords];
 	// Do any additional setup after loading the view.
 }
 
@@ -60,7 +62,26 @@
     myTextField.returnKeyType = UIReturnKeySearch;
     [imgInput addSubview:myTextField];
     
-    [self loadRecommendSearch];
+    //[self loadRecommendSearch];
+}
+
+- (void)loadKeywords{
+    if (apiKeywords) {
+        apiKeywords = nil;
+    }
+    apiKeywords = [[ApiCmdKeywords alloc] init];
+    apiKeywords.delegate = self;
+    apiKeywords.m_requestUrl = @"/api/search/keywords";
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiKeywords WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdKeywords *result = (ApiCmdKeywords *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictKeys = (NSMutableDictionary *)result.dict;
+        [self loadRecommendSearch];
+    }
+    
 }
 
 - (void)loadRecommendSearch{
@@ -73,21 +94,43 @@
     
     UIImage *imgNormal = [UIImage imageNamed:@"recommend_btn_normal"];
     UIImage *imgHighlight = [UIImage imageNamed:@"recommend_btn_highlight"];
-    for (int i = 0; i < 2; i++) {
+    
+    NSArray *array = [dictKeys valueForKey:@"keywords"];
+    for (int i = 0; i<array.count/2+floor(array.count%2); i++) {
         for (int j = 0; j < 2; j++) {
+            if (i*2+j+1>array.count) {
+                return;
+            }
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setFrame:CGRectMake(imgInputBg.frame.origin.x-2+(imgNormal.size.width+2)*i, label.frame.origin.y+label.frame.size.height+5+(imgNormal.size.height+5)*j, imgNormal.size.width, imgNormal.size.height)];
             [btn setBackgroundImage:imgNormal forState:UIControlStateNormal];
             [btn setBackgroundImage:imgHighlight forState:UIControlStateHighlighted];
-            NSInteger index = i==0?j:2+j;
+            NSInteger index = i*2+j;
             btn.tag = index;
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [btn setTitle:@"中暑怎么办" forState:UIControlStateNormal];
+            [btn setTitle:[array objectAtIndex:index] forState:UIControlStateNormal];
             [btn setTitleColor:[@"#95d4cb" colorWithHexString] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:btn];
         }
     }
+    
+    
+//    for (int i = 0; i < 2; i++) {
+//        for (int j = 0; j < 2; j++) {
+//            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [btn setFrame:CGRectMake(imgInputBg.frame.origin.x-2+(imgNormal.size.width+2)*i, label.frame.origin.y+label.frame.size.height+5+(imgNormal.size.height+5)*j, imgNormal.size.width, imgNormal.size.height)];
+//            [btn setBackgroundImage:imgNormal forState:UIControlStateNormal];
+//            [btn setBackgroundImage:imgHighlight forState:UIControlStateHighlighted];
+//            NSInteger index = i==0?j:2+j;
+//            btn.tag = index;
+//            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+//            [btn setTitle:@"中暑怎么办" forState:UIControlStateNormal];
+//            [btn setTitleColor:[@"#95d4cb" colorWithHexString] forState:UIControlStateNormal];
+//            [btn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+//            [self.view addSubview:btn];
+//        }
+//    }
 }
 
 - (void)clickBtn:(id)sender{

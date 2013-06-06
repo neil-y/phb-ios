@@ -12,13 +12,15 @@
 #import "ApiConfig.h"
 
 @interface ApiCmd : NSObject<ApiNotify>{
+    id<ApiNotify> delegate;
+     NSDictionary *dictData;
     
 @private
     
     BOOL isFromCache;
     
     id<ApiNotify> apiClient;
-    id<ApiNotify> delegate;
+    
     
     NSDictionary* dict;
     
@@ -32,6 +34,7 @@
     id resultData;
     NSString* m_requestUrl ; //不是全部，只是后半段
     BOOL isReturnSuccess;
+   
 }
 @property(nonatomic, assign) BOOL isFromCache;
 @property(nonatomic, assign) BOOL isUseEncrypt;

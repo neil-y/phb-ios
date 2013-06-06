@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ATMHudDelegate.h"
 
 typedef enum {
     PKBackgroundTypeLeft = 0,
@@ -14,12 +15,13 @@ typedef enum {
     PKBackgroundTypeRight,
 } PKBackgroundType;
 
-@interface PKViewController : UIViewController<ApiNotify>{
+@interface PKViewController : UIViewController<ApiNotify,ATMHudDelegate>{
     UIImageView *imgvNavBar;
     UILabel *labelTitle;
     NSString *strNaviTitle;
     UIButton *btnNaviLeft,*btnNaviRight;
     PKBackgroundType typeBackground;
+    ATMHud *hud;
 }
 @property (nonatomic, retain) NSString *strNaviTitle;
 @property (nonatomic, assign) PKBackgroundType typeBackground;
@@ -30,5 +32,10 @@ typedef enum {
 
 - (void)goBack;
 - (void)clickRightNaviBtn;
+
+- (void)createATMHud:(NSString *)strContent;
+- (void)showATMHudSuccess:(NSString *)strContent;
+- (void)showATMHudError:(NSString *)strContent;
+- (void)hidATMHud;
 
 @end

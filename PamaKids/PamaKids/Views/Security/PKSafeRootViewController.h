@@ -10,6 +10,8 @@
 
 @interface PKSafeRootViewController : PKViewController{
     NSInteger numTopic;
+    UILabel *labelNickname;
+    UIImageView *imgAvatar;
 }
 
 @end

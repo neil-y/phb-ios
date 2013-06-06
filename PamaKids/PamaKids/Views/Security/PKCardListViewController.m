@@ -34,7 +34,7 @@
     [self createNaviBtnLeft:[UIImage imageNamed:@"back_btn"]];
     
     [self loadTable];
-    
+    myTableView.frame = CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-120);
     [self createBtn];
     [self loadCardData];
 	// Do any additional setup after loading the view.
@@ -46,15 +46,17 @@
     }
     apiBabyCard = [[ApiCmdBabyCard alloc] init];
     apiBabyCard.m_requestUrl = @"/api/babycards?user_id=1";
+    apiBabyCard.delegate = self;
     [[PKConfig getApiClient] executeApiCmdGetAsync:apiBabyCard WithBlock:self];
 }
 
 - (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
     ApiCmdBabyCard *result = (ApiCmdBabyCard *)apiCmd;
     if (result.isReturnSuccess) {
-        
+        dictCard = (NSMutableDictionary *)result.dict;
     }
-    NSLog(@"ddd");
+    
+    [myTableView reloadData];
 }
 
 - (void)createBtn{
@@ -72,13 +74,17 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+- (void)reloadTableData{
+    [myTableView reloadData];
+}
+
 #pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 136;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return [[dictCard valueForKey:@"babycards"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -93,6 +99,8 @@
         [element removeFromSuperview];
     }
     
+    cell.mainCtrl = self;
+    cell.dictCard = [[dictCard valueForKey:@"babycards"] objectAtIndex:indexPath.row];
     [cell performSelector:@selector(loadContent)];
     
     return cell;

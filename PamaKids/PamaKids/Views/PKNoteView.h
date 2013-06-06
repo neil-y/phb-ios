@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PKNoteView : UIView
-
-- (id)initWithFrame:(CGRect)frame status:(BOOL)isLeft;
+@property (nonatomic, strong) NSDictionary *dictArticle;
+- (id)initWithFrame:(CGRect)frame status:(BOOL)isLeft data:(NSDictionary *)dict;
 @end

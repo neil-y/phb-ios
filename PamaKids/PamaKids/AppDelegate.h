@@ -11,7 +11,9 @@
 @class ViewController;
 @class PKHomeViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+    UINavigationController *naviCtrl;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

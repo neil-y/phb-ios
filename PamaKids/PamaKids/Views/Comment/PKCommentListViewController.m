@@ -36,6 +36,25 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)getMyComments{
+    if (apiComments) {
+        apiComments = nil;
+    }
+    apiComments = [[HttpCmdGet alloc] init];
+    apiComments.m_requestUrl = @"/api/comments?user_id=1";
+    apiComments.delegate = self;
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiComments WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    HttpCmdGet *result = (HttpCmdGet *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictComments = (NSMutableDictionary *)result.dict;
+    }
+    
+    [myTableView reloadData];
+}
+
 - (void)loadContent{
     [self loadTable];
 }

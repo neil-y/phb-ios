@@ -41,7 +41,8 @@
  **/
 - (NSError*) executeHttpCmdGet:(HttpCmdGet*) cmd;
 
--(void) executeApiCmdAsync:(ApiCmd*) cmd WithBlock:(id)object;
-- (void) executeApiCmdGetAsync:(ApiCmd*) cmd WithBlock:(id)object;
+- (void) executeApiCmdAsync:(ApiCmd* )cmd WithBlock:(id)object;
+- (void) executeApiCmdGetAsync:(ApiCmd *)cmd WithBlock:(id)object;
+- (void) executeApiCmdPutAsync:(ApiCmd *)cmd WithBlock:(id)object;
 
 @end

@@ -7,10 +7,13 @@
 //
 
 #import "PKViewController.h"
+#import "ApiCmdKeywords.h"
 
 @interface PKSearchViewController : PKViewController<UITextFieldDelegate>{
     UITextField *myTextField;
     UIImageView *imgInputBg;
+    ApiCmdKeywords *apiKeywords;
+    NSDictionary *dictKeys;
 }
 
 @end

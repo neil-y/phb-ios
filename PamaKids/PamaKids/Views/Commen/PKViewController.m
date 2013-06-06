@@ -109,6 +109,44 @@
 - (void)clickRightNaviBtn{
 }
 
+- (void)createATMHud:(NSString *)strContent{
+    if (!hud) {
+        hud = [[ATMHud alloc] initWithDelegate:self];
+    }
+    [self.view addSubview:hud.view];
+    [hud setAccessoryPosition:2];
+    [hud setCaption:[NSString stringWithFormat:@"%@",strContent]];
+    [hud setActivity:YES];
+    [hud show];
+}
+
+- (void)showATMHudSuccess:(NSString *)strContent{
+    if (!hud) {
+        [self createATMHud:strContent];;
+    }
+    [hud setCaption:[NSString stringWithFormat:@"%@",strContent]];
+	[hud setActivity:NO];
+	[hud setImage:[UIImage imageNamed:@"19-check"]];
+	[hud update];
+	[hud hideAfter:2.0];
+}
+
+- (void)showATMHudError:(NSString *)strContent{
+    if (!hud) {
+        [self createATMHud:strContent];;
+    }
+    [hud setCaption:[NSString stringWithFormat:@"%@",strContent]];
+	[hud setActivity:NO];
+	[hud setImage:[UIImage imageNamed:@"11-x"]];
+	[hud update];
+	[hud hideAfter:2.0];
+}
+
+- (void)hidATMHud{
+    [hud hide];
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -46,19 +46,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "PamaKids/Data/API/ApiCmdUser.m"
-         timestampString = "390408569.229551"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "22"
-         endingLineNumber = "22"
-         landmarkName = "-parseResultData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "PamaKids/Data/API/NSDictionary+DeepMutableCopy.m"
          timestampString = "390485519.398323"
          startingColumnNumber = "9223372036854775807"
@@ -66,19 +53,6 @@
          startingLineNumber = "14"
          endingLineNumber = "14"
          landmarkName = "-mutableDeepCopy"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "PamaKids/Views/PKHomeViewController.m"
-         timestampString = "391603843.777609"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "78"
-         endingLineNumber = "78"
-         landmarkName = "-apiNotifyResult:error:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -95,15 +69,54 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "PamaKids/Views/Card/PKAddCardViewController.m"
-         timestampString = "391607682.045837"
+         filePath = "PamaKids/Views/Security/PKCardListViewController.m"
+         timestampString = "391874761.964484"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "56"
-         endingLineNumber = "56"
+         startingLineNumber = "50"
+         endingLineNumber = "50"
+         landmarkName = "-loadCardData"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "PamaKids/Views/Security/PKCardListViewController.m"
+         timestampString = "391874766.464567"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "55"
+         endingLineNumber = "55"
+         landmarkName = "-apiNotifyResult:error:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "PamaKids/Views/Security/PKCardListViewController.m"
+         timestampString = "391874767.161757"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
+         landmarkName = "-apiNotifyResult:error:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "PamaKids/Views/Security/PKCardListViewController.m"
+         timestampString = "391874768.529307"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "59"
+         endingLineNumber = "59"
          landmarkName = "-apiNotifyResult:error:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -111,13 +124,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "PamaKids/Data/API/ApiCmd.m"
-         timestampString = "391612867.775181"
+         filePath = "PamaKids/Views/PKNoteView.m"
+         timestampString = "391966702.382535"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
-         landmarkName = "-parseJson:"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
+         landmarkName = "-clickBtn"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-
+#import "PKMenuViewController.h"
+#import "PKSafeRootViewController.h"
 
 @interface ViewController ()
 
@@ -18,16 +19,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    controller = [[PKHomeViewController alloc] init];
-//    controller.view.frame = self.view.bounds;
-//    [self.view addSubview:controller.view];
-    
+    BOOL isLogin = NO;//[[NSUserDefaults standardUserDefaults] boolForKey:@"isLogin"];
+    if (isLogin) {
+        [self showMainPage];
+    }
+    else {
+        [self showLoginPage];
+    }
+}
+
+- (void)showLoginPage{
     loginCtrl = [[PKLoginViewController alloc] init];
-    naviCtrl = [[UINavigationController alloc] initWithRootViewController:loginCtrl];
-    naviCtrl.view.frame = self.view.bounds;
+    [self.navigationController pushViewController:loginCtrl animated:NO];
     //loginCtrl.view.frame = self.view.bounds;
-    [self.view addSubview:naviCtrl.view];
-	// Do any additional setup after loading the view, typically from a nib.
+    //naviCtrl = [[UINavigationController alloc] initWithRootViewController:loginCtrl];
+    //naviCtrl.view.frame = self.view.bounds;
+    //loginCtrl.view.frame = self.view.bounds;
+    //[self.view addSubview:loginCtrl.view];
+}
+
+- (void)showMainPage{
+    PKHomeViewController *controller = [[PKHomeViewController alloc] init];
+    
+    DDMenuController *menuCtrl = [[DDMenuController alloc] initWithRootViewController:controller];
+    controller.slideOutCtrl = menuCtrl;
+    PKMenuViewController *leftCtrl = [[PKMenuViewController alloc] init];
+    menuCtrl.leftViewController = leftCtrl;
+    
+    PKSafeRootViewController *rightCtrl = [[PKSafeRootViewController alloc] init];
+    menuCtrl.rightViewController = rightCtrl;
+    
+    //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //    ViewController *rootController = (ViewController *)delegate.viewController;
+    [self.navigationController pushViewController:menuCtrl animated:NO];
 }
 
 - (void)clickBtn{

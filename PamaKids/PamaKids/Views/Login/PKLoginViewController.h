@@ -10,7 +10,7 @@
 #import "ApiCmdUser.h"
 #import "DDMenuController.h"
 
-@interface PKLoginViewController : PKViewController<ApiNotify,UITextFieldDelegate,UMSocialUIDelegate,UMSocialDataDelegate>{
+@interface PKLoginViewController : PKViewController<UITextFieldDelegate,UMSocialUIDelegate,UMSocialDataDelegate>{
     UITextField *textUserName,*textPassword;
     ApiCmdUser *apiUser;
 }

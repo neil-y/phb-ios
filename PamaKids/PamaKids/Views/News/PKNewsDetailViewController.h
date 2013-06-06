@@ -7,10 +7,14 @@
 //
 
 #import "PKViewController.h"
+#import "ApicCmdComment.h"
 
 @interface PKNewsDetailViewController : PKViewController<UIWebViewDelegate,UIActionSheetDelegate,UMSocialUIDelegate>{
     UIWebView *myWebView;
     UIActionSheet *myActionSheet;
+    ApicCmdComment *apiComment;
+    NSMutableDictionary *dictResult;
 }
+@property (nonatomic, strong) NSDictionary *dictArticle;
 
 @end

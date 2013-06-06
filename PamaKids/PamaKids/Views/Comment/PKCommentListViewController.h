@@ -7,8 +7,11 @@
 //
 
 #import "PKTableViewController.h"
+#import "HttpCmdGet.h"
 
 @interface PKCommentListViewController : PKTableViewController{
+    HttpCmdGet *apiComments;
+    NSDictionary *dictComments;
 }
 
 @end

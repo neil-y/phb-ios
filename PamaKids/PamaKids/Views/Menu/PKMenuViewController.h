@@ -7,9 +7,12 @@
 //
 
 #import "PKTableViewController.h"
+#import "ApiCmdHomePage.h"
 
 @interface PKMenuViewController : PKTableViewController{
     NSInteger selSession,selRow;
+    ApiCmdHomePage *apiHomePage;
+    NSDictionary *dictCategory;
 }
 
 @end

@@ -7,6 +7,10 @@
 //
 
 #import "PKMenuViewController.h"
+#import "PKNewsDetailViewController.h"
+#import "DDMenuController.h"
+#import "AppDelegate.h"
+#import "PKHomeViewController.h"
 
 @interface PKMenuViewController ()
 
@@ -42,7 +46,27 @@
     frame.origin.x = 20;
     frame.size.width = 320-20-25;
     myTableView.frame = frame;
+    
+    [self loadHomePageData];
 	// Do any additional setup after loading the view.
+}
+
+- (void)loadHomePageData{
+    if (apiHomePage) {
+        apiHomePage = nil;
+    }
+    apiHomePage = [[ApiCmdHomePage alloc] init];
+    apiHomePage.m_requestUrl = @"/api/tags/首页";
+    apiHomePage.delegate = self;
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiHomePage WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApiCmdHomePage *result = (ApiCmdHomePage *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictCategory = [result.dict valueForKey:@"categories"];
+        [myTableView reloadData];
+    }
 }
 
 #pragma mark UITableViewDelegate
@@ -51,12 +75,13 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return [dictCategory allKeys].count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == selSession) {
-        return 5;
+        NSArray *arrayKey = [dictCategory allKeys];
+        return [[dictCategory valueForKey:[arrayKey objectAtIndex:section]] count];
     }
     return 0;
 }
@@ -94,7 +119,10 @@
     labelSession.backgroundColor = [UIColor clearColor];
     labelSession.font = [UIFont systemFontOfSize:15];
     labelSession.textColor = [@"#333333" colorWithHexString];
-    labelSession.text = @"安全检测";
+    
+    NSArray *arrayKey = [dictCategory allKeys];
+    
+    labelSession.text = [arrayKey objectAtIndex:section];
     [vi addSubview:labelSession];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -131,10 +159,14 @@
         [cell.contentView addSubview:imgSel];
     }
     
+    NSArray *arrayKey = [dictCategory allKeys];
+    NSArray *arrayArticles = [dictCategory valueForKey:[arrayKey objectAtIndex:indexPath.section]];
+    NSDictionary *dictArticle = [arrayArticles objectAtIndex:indexPath.row];
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(35, 0, 200, 38)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [@"#333333" colorWithHexString];
-    label.text = @"安全标题";
+    label.text = [dictArticle valueForKey:@"title"];
     label.font = [UIFont systemFontOfSize:15];
     [cell.contentView addSubview:label];
     
@@ -153,6 +185,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selRow = indexPath.row;
     [myTableView reloadData];
+    
+    NSArray *arrayKey = [dictCategory allKeys];
+    NSArray *arrayArticles = [dictCategory valueForKey:[arrayKey objectAtIndex:indexPath.section]];
+    NSDictionary *dictArticle = [arrayArticles objectAtIndex:indexPath.row];
+    
+    PKNewsDetailViewController *controller = [[PKNewsDetailViewController alloc] init];
+    controller.dictArticle = dictArticle;
+    
+    [[self getMenuCtrl].navigationController pushViewController:controller animated:YES];
+}
+
+- (DDMenuController *)getMenuCtrl{
+    return ((AppDelegate *)[UIApplication sharedApplication].delegate).homeController.slideOutCtrl;
 }
 
 - (void)clickSession:(id)sender{

@@ -37,7 +37,28 @@
     [self.view addSubview:imgLine];
     [self loadTable];
     myTableView.frame = CGRectMake(0, 60, 320, self.view.frame.size.height-60);
+    
+    [self getMyTopics];
 	// Do any additional setup after loading the view.
+}
+
+- (void)getMyTopics{
+    if (apiArticles) {
+        apiArticles = nil;
+    }
+    apiArticles = [[HttpCmdGet alloc] init];
+    apiArticles.m_requestUrl = @"/api/articles?user_id=1";
+    apiArticles.delegate = self;
+    [[PKConfig getApiClient] executeApiCmdGetAsync:apiArticles WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    HttpCmdGet *result = (HttpCmdGet *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictArticles = (NSMutableDictionary *)result.dict;
+    }
+    
+    [myTableView reloadData];
 }
 
 #pragma mark UITableViewDelegate
@@ -46,7 +67,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return [[dictArticles valueForKey:@"articles"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -184,8 +184,52 @@ static NSString* keyCookie = @"cookie";
     });
 }
 
+- (void) executeApiCmdPutAsync:(ApiCmd *)cmd WithBlock:(id)object{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        //[object retain];
+        [self executeApiPutCmd:cmd];
+        //[object release];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+        
+    });
+}
+
 - (NSError*) executeApiCmd:(ApiCmd*) cmd{
     ASIFormDataRequest* request = [self prepareExecuteApiCmd:cmd];
+    [request startSynchronous];
+    NSError *error = [request error];
+    NSData *responseData = request.responseData;
+    int statusCode = [request responseStatusCode];
+    cmd.isFromCache = NO;
+    if (statusCode == 200||statusCode == 201) {
+        cmd.isFromCache = request.didUseCachedResponse;
+        NSString* str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",str);
+        [cmd parseHttpDataAll:responseData];
+    }
+    else {
+        NSString *str = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",str);
+    }
+    
+    
+    [self apiNotifyResult:cmd error:error];
+    if (cmd.delegate && [cmd.delegate respondsToSelector:@selector(apiNotifyResult:error:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cmd.delegate apiNotifyResult:cmd error:error];
+        });
+        
+    }
+    cmd.isFromCache = request.didUseCachedResponse;
+    
+    return error;
+}
+
+- (NSError*) executeApiPutCmd:(ApiCmd*) cmd{
+    ASIFormDataRequest* request = [self prepareExecuteApiCmd:cmd];
+    [request setRequestMethod:@"PUT"];
     [request startSynchronous];
     NSError *error = [request error];
     NSData *responseData = request.responseData;
@@ -224,6 +268,7 @@ static NSString* keyCookie = @"cookie";
 
     NSURL *url = [NSURL URLWithString:str];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    //[request setRequestMethod:@"PUT"];
     
     if(cmd.isUseCache)
     {
@@ -277,7 +322,12 @@ static NSString* keyCookie = @"cookie";
         cmd.isFromCache = NO;
         
     }
-    
+    if (cmd.delegate && [cmd.delegate respondsToSelector:@selector(apiNotifyResult:error:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cmd.delegate apiNotifyResult:cmd error:error];
+        });
+        
+    }
     
     return error;
 }

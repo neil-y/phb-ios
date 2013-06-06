@@ -11,6 +11,6 @@
 
 @interface ApiCmdUser : ApiCmd
 
-@property (nonatomic,strong) NSString *username,*password;
+@property (nonatomic,strong) NSString *username,*password,*nickname;
 
 @end

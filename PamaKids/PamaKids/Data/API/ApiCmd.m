@@ -142,6 +142,7 @@
     // we do nothing here
     // you should override this method in decendent classes
     //    self.resultData = dictionary;
+    dictData = dictionary;
     
 }
 

@@ -8,12 +8,14 @@
 
 #import "PKNewsDetailViewController.h"
 #import "UMSocialSnsPlatformManager.h"
+#import "PKAddCommentView.h"
 
 @interface PKNewsDetailViewController ()
 
 @end
 
 @implementation PKNewsDetailViewController
+@synthesize dictArticle;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +34,7 @@
     self.strNaviTitle = @"新闻信息";
     [self createNaviBtnLeft:[UIImage imageNamed:@"back_btn"]];
     
-    [self loadContent];
+    [self performSelector:@selector(loadContent) withObject:nil afterDelay:0.5];
 	// Do any additional setup after loading the view.
 }
 
@@ -41,7 +43,8 @@
         myWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50)];
         myWebView.delegate = self;
     }
-    [myWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
+    [myWebView loadHTMLString:[dictArticle valueForKey:@"content"] baseURL:nil];
+    //[myWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[dictArticle valueForKey:@"content"]]]];
     [self.view addSubview:myWebView];
     
     UIImageView *imgToolbar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"news_detail_mark"]];
@@ -73,6 +76,10 @@
             break;
         case 1:
         {
+            PKAddCommentView *commentView = [[PKAddCommentView alloc] initWithFrame:self.view.bounds];
+            commentView.mainCtrl = self;
+            [self.view addSubview:commentView];
+            [commentView performSelector:@selector(loadContent)];
         }
             break;
         case 2:
@@ -84,6 +91,31 @@
         default:
             break;
     }
+}
+
+- (void)sendComment:(NSString *)strContent{
+    if (apiComment) {
+        apiComment = nil;
+    }
+    apiComment = [[ApicCmdComment alloc] init];
+    apiComment.m_requestUrl = @"/api/comments";
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    apiComment.userid = [userDefaults valueForKey:@"id"];
+    apiComment.content = strContent;
+    apiComment.article_id = [dictArticle valueForKey:@"id"];
+    
+    apiComment.delegate = self;
+    [[PKConfig getApiClient] executeApiCmdAsync:apiComment WithBlock:self];//executeApiCmdGetAsync:apiComment WithBlock:self];
+}
+
+- (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
+    ApicCmdComment *result = (ApicCmdComment *)apiCmd;
+    if (result.isReturnSuccess) {
+        dictResult = (NSMutableDictionary *)result.dict;
+    }
+    
+    //[myTableView reloadData];
 }
 
 #pragma mark - action sheet delegate

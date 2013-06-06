@@ -35,6 +35,11 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refreshUserData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,25 +53,31 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)refreshUserData{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    labelNickname.text = [userDefaults valueForKey:@"nickname"];
+}
+
 - (void)loadContent{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIImageView *imgPanel = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"safe_blue_bg"]];
     imgPanel.frame = CGRectMake(15, 50, imgPanel.frame.size.width, imgPanel.frame.size.height);
     imgPanel.userInteractionEnabled = YES;
     [self.view addSubview:imgPanel];
     
-    UIImageView *imgAvatar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar.jpg"]];
+    imgAvatar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar.jpg"]];
     imgAvatar.frame = CGRectMake(21, 16, 41, 41);
     imgAvatar.layer.cornerRadius = 21.5;
     [imgPanel addSubview:imgAvatar];
     
-    UILabel *labelNickname = [[UILabel alloc] initWithFrame:CGRectMake(imgAvatar.frame.origin.x+imgAvatar.frame.size.width+20, imgAvatar.frame.origin.y, 200, 16)];
+    labelNickname = [[UILabel alloc] initWithFrame:CGRectMake(imgAvatar.frame.origin.x+imgAvatar.frame.size.width+20, imgAvatar.frame.origin.y, 200, 16)];
     labelNickname.backgroundColor = [UIColor clearColor];
     labelNickname.textColor = [@"#333333" colorWithHexString];
     labelNickname.font = [UIFont systemFontOfSize:16];
-    labelNickname.text = @"各种坑爹";
+    labelNickname.text = [userDefaults valueForKey:@"nickname"];
     [imgPanel addSubview:labelNickname];
     
-    UILabel *labelDescription = [[UILabel alloc] initWithFrame:CGRectMake(labelNickname.frame.origin.x, labelNickname.frame.origin.y+labelNickname.frame.size.height+10, 140, 20)];
+    UILabel *labelDescription = [[UILabel alloc] initWithFrame:CGRectMake(labelNickname.frame.origin.x, labelNickname.frame.origin.y+labelNickname.frame.size.height+8, 140, 22)];
     labelDescription.backgroundColor = [UIColor clearColor];
     labelDescription.textColor = [@"#333333" colorWithHexString];
     labelDescription.numberOfLines = 2;

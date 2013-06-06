@@ -11,6 +11,9 @@
 
 @interface PKCardListViewController : PKTableViewController{
     ApiCmdBabyCard *apiBabyCard;
+    NSMutableDictionary *dictCard;
 }
+
+- (void)reloadTableData;
 
 @end

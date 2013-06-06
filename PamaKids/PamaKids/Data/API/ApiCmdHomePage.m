@@ -15,6 +15,10 @@
 }
 
 - (void) parseResultData:(NSDictionary*) dictionary{
+    [super parseResultData:dictionary];
+//    if ([delegate respondsToSelector:@selector(parseResultData:)]) {
+//        [delegate performSelector:@selector(parseResultData:) withObject:dictionary];
+//    }
     NSLog(@"ddd");
 }
 

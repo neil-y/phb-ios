@@ -7,12 +7,14 @@
 //
 
 #import "PKAddCardViewController.h"
+#import "PKCardListViewController.h"
 
 @interface PKAddCardViewController ()
 
 @end
 
 @implementation PKAddCardViewController
+@synthesize dictCard,isEdit,mainCtrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,26 +48,72 @@
         apiBabyCard = nil;
     }
     apiBabyCard = [[ApiCmdBabyCard alloc] init];
-    apiBabyCard.m_requestUrl = @"/api/babycards";
-    apiBabyCard.userid = @"1";
-    apiBabyCard.cardname = @"apple";
-    [[PKConfig getApiClient] executeApiCmdAsync:apiBabyCard WithBlock:self];
+    if (isEdit) {
+        apiBabyCard.m_requestUrl = [NSString stringWithFormat:@"/api/babycards/%@",[dictCard valueForKey:@"id"]];
+        apiBabyCard.userid = @"1";
+        apiBabyCard.cardname = textName.text;
+        apiBabyCard.birthday = textBirthday.text;
+        apiBabyCard.gender = isBoy?@"1":@"0";
+        apiBabyCard.blood_type = [NSString stringWithFormat:@"%d",blood];
+        apiBabyCard.father_phone = textFaNum.text;
+        apiBabyCard.mather_phone = textMoMun.text;
+        apiBabyCard.record = textRecord.text;
+        apiBabyCard.note = textNotice.text;
+        apiBabyCard.color = [NSString stringWithFormat:@"%d",color];
+        apiBabyCard.delegate = self;
+        [[PKConfig getApiClient] executeApiCmdPutAsync:apiBabyCard WithBlock:self];//executeApiCmdAsync:apiBabyCard WithBlock:self];
+    }
+    else {
+        apiBabyCard.m_requestUrl = @"/api/babycards";
+        apiBabyCard.userid = @"1";
+        apiBabyCard.cardname = textName.text;
+        apiBabyCard.birthday = textBirthday.text;
+        apiBabyCard.gender = isBoy?@"1":@"0";
+        apiBabyCard.blood_type = [NSString stringWithFormat:@"%d",blood];
+        apiBabyCard.father_phone = textFaNum.text;
+        apiBabyCard.mather_phone = textMoMun.text;
+        apiBabyCard.record = textRecord.text;
+        apiBabyCard.note = textNotice.text;
+        apiBabyCard.color = [NSString stringWithFormat:@"%d",color];
+        apiBabyCard.delegate = self;
+        [[PKConfig getApiClient] executeApiCmdAsync:apiBabyCard WithBlock:self];
+    }
+    
 }
 
 - (void) apiNotifyResult:(id) apiCmd  error:(NSError*) error{
     ApiCmdBabyCard *result = (ApiCmdBabyCard *)apiCmd;
     if (result.isReturnSuccess) {
-        
+        if (isEdit) {
+            [self showATMHudSuccess:@"更新成功"];
+            
+            NSDictionary *dict = [((ApiCmd *)apiCmd).dict valueForKey:@"babycard"];
+            NSArray *arrayKeys = dict.allKeys;
+            for (int i = 0; i < arrayKeys.count; i++) {
+                [dictCard setObject:[dict valueForKey:[arrayKeys objectAtIndex:i]] forKey:[arrayKeys objectAtIndex:i]];
+            }
+            
+            [mainCtrl reloadTableData];
+        }
+        else {
+            [self showATMHudSuccess:@"创建成功"];
+            [mainCtrl performSelector:@selector(loadCardData)];
+        }
     }
-    NSLog(@"ddd");
 }
 
 - (void)loadContent{
-    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, 320, self.view.frame.size.height-44)];
+    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, 320, self.view.frame.size.height-50)];
     myScrollView.delegate = self;
     [self.view addSubview:myScrollView];
     
-    imgCard = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"card_edit0"]];
+    color = 0;
+    if (isEdit) {
+        NSString *strColor = defaultNilObject([dictCard objectForKey:@"color"]);
+        color = [strColor integerValue];
+    }
+
+    imgCard = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"card_edit%d",color]]];
     imgCard.frame = CGRectMake((self.view.frame.size.width-imgCard.frame.size.width)/2.0, 20, imgCard.frame.size.width, imgCard.frame.size.height);
     imgCard.userInteractionEnabled = YES;
     [myScrollView addSubview:imgCard];
@@ -97,6 +145,13 @@
                 lb.text = @"宝宝姓名";
                 UIImageView *imgInput = [self createInputImage];
                 textName = [self createInputText:imgInput];
+                
+                
+                if (isEdit) {
+                    NSString *strName = defaultNilObject([dictCard objectForKey:@"name"]);
+                    textName.text = strName;
+                }
+                
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
@@ -107,8 +162,16 @@
             {
                 lb.text = @"宝宝性别";
                 [arrayGender removeAllObjects];
+                isBoy = YES;
+                if (isEdit) {
+                    NSString *strGender = defaultNilObject([dictCard objectForKey:@"gender"]);
+                    isBoy = ([strGender integerValue] == 1);
+                }
+                
                 for (int i = 0; i < 2; i++) {
-                    UIView *vi = [self createSingleCheckBtn:i==0?YES:NO title:i==0?@"男孩":@"女孩" tag:i];
+                    
+                    
+                    UIView *vi = [self createSingleCheckBtn:i==0?isBoy:!isBoy title:i==0?@"男孩":@"女孩" tag:i];
                     CGRect frame = vi.frame;
                     frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14+84*i, lb.frame.origin.y+3);
                     vi.frame = frame;
@@ -123,10 +186,20 @@
                 UIImageView *imgInput = [self createInputImage];
                 textBirthday = [self createInputText:imgInput];
                 textBirthday.userInteractionEnabled = NO;
+                
+                if (isEdit) {
+                    NSString *strBirthday = defaultNilObject([dictCard objectForKey:@"birthday"]);
+                    textBirthday.text = strBirthday;
+                }
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
                 imgInput.frame = frame;
+                
+                UIButton *btnPicker = [UIButton buttonWithType:UIButtonTypeCustom];
+                [btnPicker setFrame:imgInput.bounds];
+                [btnPicker addTarget:self action:@selector(showBirthday) forControlEvents:UIControlEventTouchUpInside];
+                [imgInput addSubview:btnPicker];
                 
             }
                 break;
@@ -134,6 +207,13 @@
             {
                 lb.text = @"宝宝血型";
                 [arrayBlood removeAllObjects];
+                
+                blood = 0;
+                if (isEdit) {
+                    NSString *strBlood = defaultNilObject([dictCard objectForKey:@"blood_type"]);
+                    blood = [strBlood integerValue];
+                }
+                
                 for (int i = 0; i < 2; i++) {
                     for (int j = 0; j < 2; j++) {
                         NSInteger index = (i==0?j:2+j);
@@ -150,7 +230,7 @@
                         else {
                             str = @"AB型";
                         }
-                        UIView *vi = [self createSingleCheckBtn:index==0?YES:NO title:str tag:index+100];
+                        UIView *vi = [self createSingleCheckBtn:index==blood title:str tag:index+100];
                         CGRect frame = vi.frame;
                         frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14+84*i, lb.frame.origin.y+3+j*22);
                         vi.frame = frame;
@@ -165,6 +245,10 @@
                 lb.text = @"爸爸电话";
                 UIImageView *imgInput = [self createInputImage];
                 textFaNum = [self createInputText:imgInput];
+                if (isEdit) {
+                    NSString *father_phone = defaultNilObject([dictCard objectForKey:@"father_phone"]);
+                    textFaNum.text = father_phone;
+                }
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
@@ -176,6 +260,10 @@
                 lb.text = @"妈妈电话";
                 UIImageView *imgInput = [self createInputImage];
                 textMoMun = [self createInputText:imgInput];
+                if (isEdit) {
+                    NSString *mather_phone = defaultNilObject([dictCard objectForKey:@"mather_phone"]);
+                    textMoMun.text = mather_phone;
+                }
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
@@ -187,6 +275,10 @@
                 lb.text = @"过敏记录";
                 UIImageView *imgInput = [self createInputImage];
                 textRecord = [self createInputText:imgInput];
+                if (isEdit) {
+                    NSString *record = defaultNilObject([dictCard objectForKey:@"record"]);
+                    textRecord.text = record;
+                }
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
@@ -198,6 +290,10 @@
                 lb.text = @"备注";
                 UIImageView *imgInput = [self createInputImage];
                 textNotice = [self createInputText:imgInput];
+                if (isEdit) {
+                    NSString *note = defaultNilObject([dictCard objectForKey:@"note"]);
+                    textNotice.text = note;
+                }
                 [imgCard addSubview:imgInput];
                 CGRect frame = imgInput.frame;
                 frame.origin = CGPointMake(lb.frame.origin.x+lb.frame.size.width+14, lb.frame.origin.y);
@@ -223,6 +319,31 @@
                 break;
         }
     }
+}
+
+- (void)showBirthday{
+    if (!datePicker) {
+        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectZero];
+        datePicker.frame = CGRectMake(0, self.view.frame.size.height-datePicker.frame.size.height, 320, datePicker.frame.size.height);
+        datePicker.maximumDate = [NSDate date];
+        datePicker.datePickerMode = UIDatePickerModeDate;
+        [datePicker addTarget:self action:@selector(dateSelected) forControlEvents:UIControlEventValueChanged];
+    }
+    
+    if (textBirthday.text.length>0) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        [datePicker setDate:[formatter dateFromString:textBirthday.text]];
+    }
+    
+    [self.view addSubview:datePicker];
+}
+
+- (void)dateSelected{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *formatedDate = [formatter stringFromDate:datePicker.date];
+    textBirthday.text = formatedDate;
 }
 
 - (UIImageView *)createInputImage{
@@ -279,10 +400,14 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [textSelected resignFirstResponder];
+    if (datePicker) {
+        [datePicker removeFromSuperview];
+    }
 }
 
 - (void)clickColorBtn:(id)sender{
     UIButton *btn = (UIButton *)sender;
+    color = btn.tag;
     imgCard.image = [UIImage imageNamed:[NSString stringWithFormat:@"card_edit%d",btn.tag]];
 }
 
@@ -290,9 +415,11 @@
     UIButton *btn = (UIButton *)sender;
     if (btn.tag < 100) {
         [self setBtnChecked:arrayGender tag:btn.tag];
+        isBoy = (btn.tag==1);
     }
     else {
         [self setBtnChecked:arrayBlood tag:btn.tag];
+        blood = btn.tag-100;
     }
 }
 

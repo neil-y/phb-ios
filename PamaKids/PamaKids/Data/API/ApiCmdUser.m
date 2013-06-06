@@ -9,16 +9,25 @@
 #import "ApiCmdUser.h"
 
 @implementation ApiCmdUser
-@synthesize username,password;
+@synthesize username,password,nickname;
 
 - (NSMutableDictionary*) getParamDict{
     NSMutableDictionary* paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:username forKey:@"user[email]"];
-    [paramDict setObject:password forKey:@"user[password]"];
+    if (username) {
+        [paramDict setObject:username forKey:@"user[email]"];
+    }
+    if (password) {
+        [paramDict setObject:password forKey:@"user[password]"];
+    }
+    if (nickname) {
+        [paramDict setObject:nickname forKey:@"user[nickname]"];
+    }
+    
     return paramDict;
 }
 
 - (void) parseResultData:(NSDictionary*) dictionary{
+    [super parseResultData:dictionary];
     NSLog(@"ddd");
 }
 
